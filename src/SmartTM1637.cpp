@@ -1,17 +1,17 @@
+//————cpp——————
+#include "SmartTM1637.h"
 
-#include "AutoTM1637Display.h"
-
-AutoTM1637Display::AutoTM1637Display(uint8_t clk, uint8_t dio)
+SmartTM1637::SmartTM1637(uint8_t clk, uint8_t dio)
   : _clkPin(clk), _dioPin(dio), _brightness(7) {}
 
-void AutoTM1637Display::begin(uint8_t brightness) {
+void SmartTM1637::begin(uint8_t brightness) {
   pinMode(_clkPin, OUTPUT);
   pinMode(_dioPin, OUTPUT);
   _brightness = brightness;
   clear();
 }
 
-void AutoTM1637Display::start() {
+void SmartTM1637::start() {
   digitalWrite(_clkPin, HIGH);
   digitalWrite(_dioPin, HIGH);
   delayMicroseconds(2);
@@ -20,7 +20,7 @@ void AutoTM1637Display::start() {
   digitalWrite(_clkPin, LOW);
 }
 
-void AutoTM1637Display::stop() {
+void SmartTM1637::stop() {
   digitalWrite(_clkPin, LOW);
   delayMicroseconds(2);
   digitalWrite(_dioPin, LOW);
@@ -30,38 +30,38 @@ void AutoTM1637Display::stop() {
   digitalWrite(_dioPin, HIGH);
 }
 
-void AutoTM1637Display::writeByte(uint8_t b) {
+void SmartTM1637::writeByte(uint8_t b) {
   for (uint8_t i = 0; i < 8; i++) {
     digitalWrite(_clkPin, LOW);
     digitalWrite(_dioPin, (b >> i) & 0x01);
-    delayMicroseconds(3);
+    delayMicroseconds(5);
     digitalWrite(_clkPin, HIGH);
-    delayMicroseconds(3);
+    delayMicroseconds(5);
   }
 
   // optional: read ACK
   digitalWrite(_clkPin, LOW);
   pinMode(_dioPin, INPUT);
-  delayMicroseconds(3);
+  delayMicroseconds(5);
   digitalWrite(_clkPin, HIGH);
-  delayMicroseconds(3);
+  delayMicroseconds(5);
   pinMode(_dioPin, OUTPUT);
 }
 
-void AutoTM1637Display::setBrightness(uint8_t brightness) {
+void SmartTM1637::setBrightness(uint8_t brightness) {
   _brightness = brightness & 0x07;
   start();
   writeByte(0x88 | _brightness);
   stop();
 }
 
-void AutoTM1637Display::setSegments(const uint8_t segs[4]) {
+void SmartTM1637::setSegments(const uint8_t segs[4]) {
   start();
-  writeByte(0x40); // Set data command
+  writeByte(0x40);  // Set data command
   stop();
 
   start();
-  writeByte(0xC0); // Start address
+  writeByte(0xC0);  // Start address
   for (uint8_t i = 0; i < 4; i++) {
     writeByte(segs[i]);
   }
@@ -70,28 +70,33 @@ void AutoTM1637Display::setSegments(const uint8_t segs[4]) {
   setBrightness(_brightness);
 }
 
-void AutoTM1637Display::clear() {
-  uint8_t blank[4] = {0, 0, 0, 0};
+void SmartTM1637::clear() {
+  uint8_t blank[4] = { 0, 0, 0, 0 };
   setSegments(blank);
 }
 
-void AutoTM1637Display::print(const char* text) {
-  uint8_t seg[4] = {0, 0, 0, 0};
+//================================================
+//          display_1.print("init");
+//================================================
+void SmartTM1637::print(const char* text) {
+  uint8_t seg[4] = { 0, 0, 0, 0 };
   for (uint8_t i = 0; i < 4 && text[i] != '\0'; i++) {
     seg[i] = encodeChar(text[i]);
   }
   setSegments(seg);
 }
 
-// fungsi tambahan 1
-void AutoTM1637Display::printNumber(int num, bool leadingZero) {
-  uint8_t seg[4] = {0, 0, 0, 0};
+//============================================================================
+// fungsi tambahan 1 //display.printNumber(22, true); // true  0022 / falae 22
+//============================================================================
+void SmartTM1637::printNumber(int num, bool leadingZero) {
+  uint8_t seg[4] = { 0, 0, 0, 0 };
 
   num = constrain(num, 0, 9999);
   int d[4] = {
     (num / 1000) % 10,
-    (num / 100)  % 10,
-    (num / 10)   % 10,
+    (num / 100) % 10,
+    (num / 10) % 10,
     num % 10
   };
 
@@ -106,12 +111,14 @@ void AutoTM1637Display::printNumber(int num, bool leadingZero) {
     }
   }
 
-  setSegments(seg); // gunakan fungsi kita sendiri
+  setSegments(seg);  // gunakan fungsi kita sendiri
 }
 
-// fungsi tambahan 2
-void AutoTM1637Display::print(int val, const char* suffix) {
-  char buf[5] = {' ', ' ', ' ', ' ', '\0'};
+//==========================================================
+//    fungsi tambahan 2 //display_1.print(suhu, "*C");
+//==========================================================
+void SmartTM1637::print(int val, const char* suffix) {
+  char buf[5] = { ' ', ' ', ' ', ' ', '\0' };
 
   if (val < 10) {
     buf[0] = ' ';
@@ -120,21 +127,143 @@ void AutoTM1637Display::print(int val, const char* suffix) {
     buf[0] = '0' + (val / 10);
     buf[1] = '0' + (val % 10);
   } else {
-    buf[0] = '*'; buf[1] = '*'; // overflow
+    buf[0] = '*';
+    buf[1] = '*';  // overflow
   }
 
-  buf[2] = suffix[0]; // contoh: '*'
-  buf[3] = suffix[1]; // contoh: 'C'
+  buf[2] = suffix[0];  // contoh: '*'
+  buf[3] = suffix[1];  // contoh: 'C'
 
-  print(buf); // guna fungsi print(const char*)
+  print(buf);  // guna fungsi print(const char*)
 }
 
+//========================================================================
+//                   fungsi tambahan 2 printWithDots
+//========================================================================
+void SmartTM1637::printWithDots(const char* text, uint8_t dotMask) {
+  uint8_t seg[4] = { 0, 0, 0, 0 };
+  for (uint8_t i = 0; i < 4 && text[i] != '\0'; i++) {
+    seg[i] = encodeChar(text[i]);
+    if (dotMask & (1 << (3 - i))) {
+      seg[i] |= 0x80;  // Bit 7 = titik
+    }
+  }
+  setSegments(seg);
+}
 
+//===============================================================================================================
+// Versi 1 – Beginner (guna showDecimal) display_1.print(suhu, "C", true); // Beginner → 25.5C (dot pada digit 2)
+//===============================================================================================================
+void SmartTM1637::print(float val, const char* suffix, bool showDecimal) {
+  print(val, suffix, false, showDecimal, false, false);
+}
 
+//===============================================================================================================
+// Versi 2 – Pro (manual kawalan titik) display_1.print(suhu, "C", false, true, false, false);  // Pro → 25.5C
+//===============================================================================================================
+void SmartTM1637::print(float val, const char* suffix,
+                              bool dot1, bool dot2, bool dot3, bool dot4) {
+  char buf[5] = { ' ', ' ', ' ', ' ', '\0' };
+  uint8_t dotMask = 0;
 
-uint8_t AutoTM1637Display::encodeChar(char c) {
+  if (dot1) dotMask |= 0b1000;
+  if (dot2) dotMask |= 0b0100;
+  if (dot3) dotMask |= 0b0010;
+  if (dot4) dotMask |= 0b0001;
+
+  int intVal = int(val * 10.0f);  // Satu titik perpuluhan
+  bool isNegative = intVal < 0;
+  if (isNegative) intVal = -intVal;
+
+  int d0 = (intVal / 100) % 10;
+  int d1 = (intVal / 10) % 10;
+  int d2 = intVal % 10;
+
+  if (intVal > 999) {
+    buf[0] = '*';
+    buf[1] = '*';
+    buf[2] = suffix[0];
+    buf[3] = suffix[1];
+  } else {
+    buf[0] = '0' + d0;
+    buf[1] = '0' + d1;
+    buf[2] = '0' + d2;
+    buf[3] = suffix[0];  // Contoh: 'C'
+  }
+
+  printWithDots(buf, dotMask);
+}
+
+//====================================================================================
+//.       Fungsi display_1.print(suhu, false, false, true, false);  = 34.50
+//====================================================================================
+void SmartTM1637::print(float val, bool dot1, bool dot2, bool dot3, bool dot4) {
+  uint8_t seg[4] = { 0, 0, 0, 0 };
+  uint8_t dotMask = 0;
+
+  if (dot1) dotMask |= 0b1000;
+  if (dot2) dotMask |= 0b0100;
+  if (dot3) dotMask |= 0b0010;
+  if (dot4) dotMask |= 0b0001;
+
+  // Tukar kepada integer dengan 2 titik perpuluhan
+  int intVal = int(val * 100.0f);  // 34.40 → 3440
+  intVal = constrain(intVal, 0, 9999);
+
+  int d[4] = {
+    (intVal / 1000) % 10,
+    (intVal / 100) % 10,
+    (intVal / 10) % 10,
+    intVal % 10
+  };
+
+  for (int i = 0; i < 4; i++) {
+    seg[i] = encodeChar('0' + d[i]);
+    if (dotMask & (1 << (3 - i))) {
+      seg[i] |= 0x80;
+    }
+  }
+
+  setSegments(seg);
+}
+
+//===========================================================================================
+//               display_2.print("v100", false, true, true, false);
+//===========================================================================================
+void SmartTM1637::print(const char* text, bool dot1, bool dot2, bool dot3, bool dot4) {
+  uint8_t dotMask = 0;
+  if (dot1) dotMask |= 0b1000;
+  if (dot2) dotMask |= 0b0100;
+  if (dot3) dotMask |= 0b0010;
+  if (dot4) dotMask |= 0b0001;
+  printWithDots(text, dotMask);
+}
+
+//==========================================================================
+//                         rtc modul + colon
+//==========================================================================
+void SmartTM1637::printTime(uint8_t hour, uint8_t minute, bool showColon) {
+  uint8_t seg[4];
+
+  hour = constrain(hour, 0, 99);
+  minute = constrain(minute, 0, 99);
+
+  seg[0] = encodeChar('0' + (hour / 10));
+  seg[1] = encodeChar('0' + (hour % 10));
+  seg[2] = encodeChar('0' + (minute / 10));
+  seg[3] = encodeChar('0' + (minute % 10));
+
+  if (showColon) {
+    seg[1] |= 0x80;  // Bit 7 = titik tengah antara jam & minit
+  }
+
+  setSegments(seg);
+}
+
+//=============================================
+uint8_t SmartTM1637::encodeChar(char c) {
   switch (toupper(c)) {
-        // Digit 0â9
+      // Digit 0–9
 
     case '0': return 0b00111111;
     case '1': return 0b00000110;
@@ -174,7 +303,7 @@ uint8_t AutoTM1637Display::encodeChar(char c) {
     case 'x': return 0b01110110;
     case 'y': return 0b01101110;
     case 'z': return 0b01011011;
-  
+
 
     // HURUF BESAR
     case 'A': return 0b01110111;
@@ -184,7 +313,7 @@ uint8_t AutoTM1637Display::encodeChar(char c) {
     case 'E': return 0b01111001;
     case 'F': return 0b01110001;
     case 'G': return 0b00111101;
-    case 'H': return 0b01110110;
+    case 'H': return 0b01110110; //0b01110100
     case 'I': return 0b00000110;
     case 'J': return 0b00011110;
     case 'K': return 0b01110110;
@@ -203,13 +332,14 @@ uint8_t AutoTM1637Display::encodeChar(char c) {
     case 'X': return 0b01110110;
     case 'Y': return 0b01101110;
     case 'Z': return 0b01011011;
-  
+
 
     case '-': return 0b01000000;
     case '_': return 0b00001000;
     case '*':
-    case 'Â°': return 0b01100011;
+    case '°': return 0b01100011;
     case ' ': return 0b00000000;
-    default: return 0b00000000; 
+    default: return 0b00000000;
   }
 }
+
