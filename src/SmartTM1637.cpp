@@ -1,3 +1,25 @@
+/***************************************************************
+*  File Name    : SmartTM1637.cpp
+*  Description  : Driver for the TM1637 4-digit 7-segment display
+*                 with extended features such as decimal point,
+*                 text, time display, and brightness control.
+*
+*  Version      : 1.0
+*  Date         : 9 July 2025
+*  Platform     : Arduino (Uno/Nano/Mega, etc.)
+*  Author       : [fadhil /  SmartTM1637]
+*
+*  This library supports:
+*   - Number display with or without leading zeros
+*   - Text and symbol display
+*   - Time display (HH:MM)
+*   - Decimal point control (manual & automatic)
+*   - Support for uppercase/lowercase letters and special characters
+*
+*  Notes:
+*   - 
+*   - 
+****************************************************************/
 
 #include "SmartTM1637.h"
 
