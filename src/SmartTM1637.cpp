@@ -1,4 +1,4 @@
-//————cpp——————
+
 #include "SmartTM1637.h"
 
 SmartTM1637::SmartTM1637(uint8_t clk, uint8_t dio)
