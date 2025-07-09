@@ -1,5 +1,5 @@
 /***************************************************************
-*  File Name    : SmartTM1637.cpp
+*  File Name    : SmartTM1637.h
 *  Description  : Driver for the TM1637 4-digit 7-segment display
 *                 with extended features such as decimal point,
 *                 text, time display, and brightness control.
