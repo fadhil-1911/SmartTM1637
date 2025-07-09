@@ -1,0 +1,100 @@
+====================================================================
+SmartTM1637 Library – Function Documentation with Examples
+====================================================================
+
+Author      : [Your Name]
+Version     : 1.0
+Date        : 9 July 2025
+Platform    : Arduino (UNO/Nano/Mega/etc.)
+Filename    : SmartTM1637.cpp / SmartTM1637.h
+
+Description:
+------------
+This library provides a convenient driver for TM1637 4-digit 7-segment
+displays. It supports numbers, characters, time, brightness, decimal
+points, and dot control.
+
+====================================================================
+Function List with Short Examples
+====================================================================
+
+1. Constructor
+--------------
+SmartTM1637(uint8_t clk, uint8_t dio);
+Example:
+    SmartTM1637 display(3, 4); // CLK on pin 3, DIO on pin 4
+
+2. Initialization and Basic Control
+-----------------------------------
+void begin(uint8_t brightness);
+Example:
+    display.begin(5);  // Set brightness (0–7)
+
+void setBrightness(uint8_t brightness);
+    display.setBrightness(7);
+
+void clear();
+    display.clear(); // Clear all digits
+
+3. Segment Output
+-----------------
+void setSegments(const uint8_t segs[4]);
+Example:
+    uint8_t custom[4] = { 0x3F, 0x06, 0x5B, 0x4F }; // 0 1 2 3
+    display.setSegments(custom);
+
+4. Display Text or Numbers
+--------------------------
+void print(const char* text);
+    display.print("Ab12");
+
+void printNumber(int num, bool leadingZero);
+    display.printNumber(25, true);  // Shows 0025
+    display.printNumber(25, false); // Shows 25
+
+void print(int val, const char* suffix);
+    display.print(27, "*C");  // Shows "27*C"
+
+void printWithDots(const char* text, uint8_t dotMask);
+    display.printWithDots("HELP", 0b1010);  // Dots on digit 1 & 3
+
+void print(const char* text, bool dot1, bool dot2, bool dot3, bool dot4);
+    display.print("v1.0", false, true, false, false); // Dot after 1
+
+5. Display Float Numbers
+------------------------
+void print(float val, const char* suffix, bool showDecimal);
+    display.print(25.5, "C", true); // Shows 25.5C
+
+void print(float val, const char* suffix, bool d1, d2, d3, d4);
+    display.print(25.5, "C", false, true, false, false);
+
+void print(float val, bool d1, d2, d3, d4);
+    display.print(34.5, false, false, true, false); // 34.50
+
+6. Time Display
+---------------
+void printTime(uint8_t hour, uint8_t minute, bool showColon);
+    display.printTime(12, 45, true);  // Shows 12:45
+
+7. Character Encoding
+---------------------
+uint8_t encodeChar(char c);
+    // Internal use – maps character to 7-segment binary
+
+====================================================================
+Supported Characters
+====================================================================
+- Digits: 0–9
+- Letters: A–Z, a–z (limited)
+- Symbols: '-', '_', '*', '°', space
+- Dot/colon control via bit 7 of digit
+
+====================================================================
+Usage Notes
+====================================================================
+- Designed for TM1637 4-digit modules
+- Easy to integrate with RTC, sensors, etc.
+- Open-source and modifiable for personal or commercial use
+
+====================================================================
