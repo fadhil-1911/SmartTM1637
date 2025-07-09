@@ -25,9 +25,12 @@ void loop() {
   display.printNumber(1234, false);  // Show number without leading zeros
   delay(2000);
 
-  display.printTime(12, 34, true);  // Show time with colon (12:34)
+  display.printTime(12, 34, true);  // Show time with colon (12:34) **for segment with colon
   delay(2000);
 
+  display.print("v1.0", false, true, false, false); // Dot after 1 **for segment with dot
+  delay(2000);
+  
   display.clear();  // Clear display
   delay(1000);
 }
