@@ -5,6 +5,10 @@
   Version: v1.0.0
   Date: 9 July 2025
   Author: [fadhil1911]
+  GitHub: https://github.com/fadhil-1911/SmartTM1637
+  Wiring:
+    CLK = D2 (Pin D2)
+    DIO = D3 (Pin D3)
 */
 
 
