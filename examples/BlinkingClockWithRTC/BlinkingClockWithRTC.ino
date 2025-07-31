@@ -1,3 +1,12 @@
+/*
+  File: BlinkingClockWithRTC.ino
+  Description: Simple example sketch to demonstrate usage of SmartTM1637 library
+               for TM1637 4-digit 7-segment display.
+  Version: v1.0.0
+  Date: 9 July 2025
+  Author: [fadhil1911]
+*/
+
 #include <Wire.h> // 
 #include <RTClib.h>
 #include <SmartTM1637.h>
