@@ -109,7 +109,7 @@ void SmartTM1637::print(const char* text) {
 }
 
 //============================================================================
-// fungsi tambahan 1 //display.printNumber(22, true); // true  0022 / falae 22
+//  display.printNumber(22, true); // true  0022 / falae 22
 //============================================================================
 void SmartTM1637::printNumber(int num, bool leadingZero) {
   uint8_t seg[4] = { 0, 0, 0, 0 };
@@ -127,17 +127,17 @@ void SmartTM1637::printNumber(int num, bool leadingZero) {
   for (int i = 0; i < 4; i++) {
     if (d[i] != 0 || i == 3 || leadingZero) {
       seg[i] = encodeChar('0' + d[i]);
-      leading = true;
+      leadingZero = true; // issue #1 by ajwhale fixed
     } else if (!leading) {
       seg[i] = 0x00;
     }
   }
 
-  setSegments(seg);  // gunakan fungsi kita sendiri
+  setSegments(seg);  
 }
 
 //==========================================================
-//    fungsi tambahan 2 //display_1.print(suhu, "*C");
+//    display_1.print(temp, "*C");
 //==========================================================
 void SmartTM1637::print(int val, const char* suffix) {
   char buf[5] = { ' ', ' ', ' ', ' ', '\0' };
@@ -153,35 +153,35 @@ void SmartTM1637::print(int val, const char* suffix) {
     buf[1] = '*';  // overflow
   }
 
-  buf[2] = suffix[0];  // contoh: '*'
-  buf[3] = suffix[1];  // contoh: 'C'
+  buf[2] = suffix[0];  // Example: '*'
+  buf[3] = suffix[1];  // Example: 'C'
 
-  print(buf);  // guna fungsi print(const char*)
+  print(buf);  
 }
 
 //========================================================================
-//                   fungsi tambahan 2 printWithDots
+//                   printWithDots
 //========================================================================
 void SmartTM1637::printWithDots(const char* text, uint8_t dotMask) {
   uint8_t seg[4] = { 0, 0, 0, 0 };
   for (uint8_t i = 0; i < 4 && text[i] != '\0'; i++) {
     seg[i] = encodeChar(text[i]);
     if (dotMask & (1 << (3 - i))) {
-      seg[i] |= 0x80;  // Bit 7 = titik
+      seg[i] |= 0x80;  // Bit 7 = dot
     }
   }
   setSegments(seg);
 }
 
 //===============================================================================================================
-// Versi 1 – Beginner (guna showDecimal) display_1.print(suhu, "C", true); // Beginner → 25.5C (dot pada digit 2)
+// Version 1 – Beginner (use showDecimal) display_1.print(temp, "C", true); // Beginner → 25.5C (dot at digit 2)
 //===============================================================================================================
 void SmartTM1637::print(float val, const char* suffix, bool showDecimal) {
   print(val, suffix, false, showDecimal, false, false);
 }
 
 //===============================================================================================================
-// Versi 2 – Pro (manual kawalan titik) display_1.print(suhu, "C", false, true, false, false);  // Pro → 25.5C
+// Version 2 – Pro (manual dot control) display_1.print(temp, "C", false, true, false, false);  // Pro → 25.5C
 //===============================================================================================================
 void SmartTM1637::print(float val, const char* suffix,
                               bool dot1, bool dot2, bool dot3, bool dot4) {
@@ -193,7 +193,7 @@ void SmartTM1637::print(float val, const char* suffix,
   if (dot3) dotMask |= 0b0010;
   if (dot4) dotMask |= 0b0001;
 
-  int intVal = int(val * 10.0f);  // Satu titik perpuluhan
+  int intVal = int(val * 10.0f);  // one decimal place
   bool isNegative = intVal < 0;
   if (isNegative) intVal = -intVal;
 
@@ -210,14 +210,14 @@ void SmartTM1637::print(float val, const char* suffix,
     buf[0] = '0' + d0;
     buf[1] = '0' + d1;
     buf[2] = '0' + d2;
-    buf[3] = suffix[0];  // Contoh: 'C'
+    buf[3] = suffix[0];  // Example: 'C'
   }
 
   printWithDots(buf, dotMask);
 }
 
 //====================================================================================
-//.       Fungsi display_1.print(suhu, false, false, true, false);  = 34.50
+//.       display_1.print(suhu, false, false, true, false);  = 34.50
 //====================================================================================
 void SmartTM1637::print(float val, bool dot1, bool dot2, bool dot3, bool dot4) {
   uint8_t seg[4] = { 0, 0, 0, 0 };
@@ -228,7 +228,7 @@ void SmartTM1637::print(float val, bool dot1, bool dot2, bool dot3, bool dot4) {
   if (dot3) dotMask |= 0b0010;
   if (dot4) dotMask |= 0b0001;
 
-  // Tukar kepada integer dengan 2 titik perpuluhan
+  // Convert to integer with 2 decimal points
   int intVal = int(val * 100.0f);  // 34.40 → 3440
   intVal = constrain(intVal, 0, 9999);
 
@@ -276,7 +276,7 @@ void SmartTM1637::printTime(uint8_t hour, uint8_t minute, bool showColon) {
   seg[3] = encodeChar('0' + (minute % 10));
 
   if (showColon) {
-    seg[1] |= 0x80;  // Bit 7 = titik tengah antara jam & minit
+    seg[1] |= 0x80;  // Bit 7 = midpoint between hour & minute
   }
 
   setSegments(seg);
