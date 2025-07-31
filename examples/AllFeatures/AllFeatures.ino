@@ -7,9 +7,6 @@
   Author: [fadhil1911]
 */
 
-
-
-
 #include <SmartTM1637.h>
 
 // CLK = Pin D2, DIO = Pin D3
