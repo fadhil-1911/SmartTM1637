@@ -12,7 +12,7 @@
 */
 
 
-#include <SmartTM1637.h>
+#include <SmartTM1637.h> // SmartTM1637 library
 
 // CLK = Pin D2, DIO = Pin D3
 SmartTM1637 display(2, 3);
