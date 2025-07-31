@@ -1,4 +1,4 @@
-file.
+# Changelog
 
 ## [1.0.1] - 2025-08-01
 ### Fixed
