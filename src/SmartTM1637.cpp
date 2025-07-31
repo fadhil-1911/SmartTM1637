@@ -127,7 +127,7 @@ void SmartTM1637::printNumber(int num, bool leadingZero) {
   for (int i = 0; i < 4; i++) {
     if (d[i] != 0 || i == 3 || leadingZero) {
       seg[i] = encodeChar('0' + d[i]);
-      leadingZero = true; // issue #1 by ajwhale fixed
+      leadingZero = true; // issue #1 by ajwhale fixed 01Augus25
     } else if (!leading) {
       seg[i] = 0x00;
     }
