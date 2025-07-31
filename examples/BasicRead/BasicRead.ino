@@ -4,13 +4,17 @@
                for TM1637 4-digit 7-segment display.
   Date: 9 July 2025
   Author: [fadhil1911]
+  GitHub: https://github.com/fadhil-1911/SmartTM1637
+  Wiring:
+    CLK = D2 (Pin D2)
+    DIO = D3 (Pin D3)
 */
 
 
 #include <SmartTM1637.h>
 
-#define CLK_PIN 2
-#define DIO_PIN 3
+#define CLK_PIN 2 // Pin D2
+#define DIO_PIN 3 // Pin D3
 
 SmartTM1637 display(CLK_PIN, DIO_PIN);
 
