@@ -1,6 +1,8 @@
-# Changelog
+file.
 
-All notable changes to this project will be documented in this file.
+## [1.0.1] - 2025-08-01
+### Fixed
+- Fixed incorrect display of numbers like 105 when `leadingZero=false`
 
 ## [1.0.0] - 2025-07-09
 ### Added
@@ -18,10 +20,3 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - None (initial release).
 
-### Fixed
-- None.
-
----
-
-## Upcoming Versions
-- 
