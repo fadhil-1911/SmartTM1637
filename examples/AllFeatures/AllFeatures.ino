@@ -1,5 +1,5 @@
 /*
-  File: BasicSmartTM1637Example.ino
+  File: AllFeatures.ino
   Description: Simple example sketch to demonstrate usage of SmartTM1637 library
                for TM1637 4-digit 7-segment display.
   Version: v1.0.0
