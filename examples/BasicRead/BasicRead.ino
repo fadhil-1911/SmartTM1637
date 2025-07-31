@@ -11,7 +11,7 @@
 */
 
 
-#include <SmartTM1637.h>
+#include <SmartTM1637.h> // SmartTM1637 library
 
 #define CLK_PIN 2 // Pin D2
 #define DIO_PIN 3 // Pin D3
