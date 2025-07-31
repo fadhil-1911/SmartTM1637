@@ -11,9 +11,9 @@
     DIO = D3 (Pin D3)
 */
 
-#include <Wire.h> // 
-#include <RTClib.h>
-#include <SmartTM1637.h>
+#include <Wire.h> // Communication library
+#include <RTClib.h> // RTC clock modul library
+#include <SmartTM1637.h> // SmartTM1637 library
 
 // Set pin for TM1637
 SmartTM1637 display(2, 3);
