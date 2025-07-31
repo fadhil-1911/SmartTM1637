@@ -2,7 +2,7 @@
 SmartTM1637 Library – Function Documentation with Examples
 ====================================================================
 
-Author      : [Your Name]
+Author      : [fadhil1911]
 Version     : 1.0
 Date        : 9 July 2025
 Platform    : Arduino (UNO/Nano/Mega/etc.)
