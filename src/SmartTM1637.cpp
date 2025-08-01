@@ -298,7 +298,7 @@ uint8_t SmartTM1637::encodeChar(char c) {
     case '8': return 0b01111111;
     case '9': return 0b01101111;
 
-    //HURUF KECIL
+    //SMALL LETTERS
     case 'a': return 0b01110111;
     case 'b': return 0b01111100;
     case 'c': return 0b01011000;
@@ -327,7 +327,7 @@ uint8_t SmartTM1637::encodeChar(char c) {
     case 'z': return 0b01011011;
 
 
-    // HURUF BESAR
+    // CAPITAL LETTERS
     case 'A': return 0b01110111;
     case 'B': return 0b01111100;
     case 'C': return 0b00111001;
