@@ -4,8 +4,8 @@
 *                 with extended features such as decimal point,
 *                 text, time display, and brightness control.
 *
-*  Version      : 1.0
-*  Date         : 9 July 2025
+*  Version      : 1.0.1
+*  Date         : 01 August 2025
 *  Platform     : Arduino (Uno/Nano/Mega, etc.)
 *  Author       : [fadhil /  SmartTM1637]
 *
