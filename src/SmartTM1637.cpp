@@ -217,7 +217,7 @@ void SmartTM1637::print(float val, const char* suffix,
 }
 
 //====================================================================================
-//.       display_1.print(suhu, false, false, true, false);  = 34.50
+//.       display_1.print(temp, false, false, true, false);  = 34.50
 //====================================================================================
 void SmartTM1637::print(float val, bool dot1, bool dot2, bool dot3, bool dot4) {
   uint8_t seg[4] = { 0, 0, 0, 0 };
