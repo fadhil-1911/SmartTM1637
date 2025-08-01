@@ -8,6 +8,7 @@ Date        : 01 August 2025
 Platform    : Arduino (UNO/Nano/Mega/etc.)
 Filename    : SmartTM1637.cpp / SmartTM1637.h
 
+------------
 Description:
 ------------
 This library provides a convenient driver for TM1637 4-digit 7-segment
@@ -18,6 +19,7 @@ points, and dot control.
 Function List with Short Examples
 ====================================================================
 
+--------------
 1. Constructor
 --------------
 SmartTM1637(uint8_t clk, uint8_t dio);
@@ -25,6 +27,7 @@ Example:
     SmartTM1637 display(3, 4); // CLK on pin 3, DIO on pin 4
 
 
+-----------------------------------
 2. Initialization and Basic Control
 -----------------------------------
 void begin(uint8_t brightness);
@@ -38,6 +41,7 @@ void clear();
     display.clear(); // Clear all digits
 
 
+-----------------
 3. Segment Output
 -----------------
 void setSegments(const uint8_t segs[4]);
@@ -46,6 +50,7 @@ Example:
     display.setSegments(custom);
 
 
+--------------------------
 4. Display Text or Numbers
 --------------------------
 void print(const char* text);
@@ -65,6 +70,7 @@ void print(const char* text, bool dot1, bool dot2, bool dot3, bool dot4);
     display.print("v1.0", false, true, false, false); // Dot after 1
 
 
+------------------------
 5. Display Float Numbers
 ------------------------
 void print(float val, const char* suffix, bool showDecimal);
@@ -77,12 +83,14 @@ void print(float val, bool d1, d2, d3, d4);
     display.print(34.5, false, false, true, false); // 34.50
 
 
+---------------
 6. Time Display
 ---------------
 void printTime(uint8_t hour, uint8_t minute, bool showColon);
     display.printTime(12, 45, true);  // Shows 12:45
 
 
+---------------------
 7. Character Encoding
 ---------------------
 uint8_t encodeChar(char c);
