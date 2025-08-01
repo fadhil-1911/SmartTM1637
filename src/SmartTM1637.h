@@ -7,7 +7,8 @@
 *  Version      : 1.0.1
 *  Date         : 01 August 2025
 *  Platform     : Arduino (Uno/Nano/Mega, etc.)
-*  Author       : [fadhil /  SmartTM1637]
+*  Author       : [fadhil1911/https://github.com/fadhil-1911]
+*  Maintainer    :Fadhil <fadhil.hashim755@yahoo.com>
 *
 *  This library supports:
 *   - Number display with or without leading zeros
