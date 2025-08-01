@@ -24,6 +24,7 @@ SmartTM1637(uint8_t clk, uint8_t dio);
 Example:
     SmartTM1637 display(3, 4); // CLK on pin 3, DIO on pin 4
 
+
 2. Initialization and Basic Control
 -----------------------------------
 void begin(uint8_t brightness);
@@ -36,12 +37,14 @@ void setBrightness(uint8_t brightness);
 void clear();
     display.clear(); // Clear all digits
 
+
 3. Segment Output
 -----------------
 void setSegments(const uint8_t segs[4]);
 Example:
     uint8_t custom[4] = { 0x3F, 0x06, 0x5B, 0x4F }; // 0 1 2 3
     display.setSegments(custom);
+
 
 4. Display Text or Numbers
 --------------------------
@@ -61,6 +64,7 @@ void printWithDots(const char* text, uint8_t dotMask);
 void print(const char* text, bool dot1, bool dot2, bool dot3, bool dot4);
     display.print("v1.0", false, true, false, false); // Dot after 1
 
+
 5. Display Float Numbers
 ------------------------
 void print(float val, const char* suffix, bool showDecimal);
@@ -72,15 +76,18 @@ void print(float val, const char* suffix, bool d1, d2, d3, d4);
 void print(float val, bool d1, d2, d3, d4);
     display.print(34.5, false, false, true, false); // 34.50
 
+
 6. Time Display
 ---------------
 void printTime(uint8_t hour, uint8_t minute, bool showColon);
     display.printTime(12, 45, true);  // Shows 12:45
 
+
 7. Character Encoding
 ---------------------
 uint8_t encodeChar(char c);
     // Internal use – maps character to 7-segment binary
+
 
 ====================================================================
 Supported Characters
